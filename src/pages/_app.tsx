@@ -1,11 +1,14 @@
-import type { AppProps } from "next/app";
 import { wrapper } from "@/redux/store";
 import "@/styles/index.scss";
+import { NextUIProvider } from "@nextui-org/react";
+import type { AppProps } from "next/app";
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Component {...pageProps} />;
+      <NextUIProvider>
+        <Component {...pageProps} />
+      </NextUIProvider>
     </>
   );
 }
