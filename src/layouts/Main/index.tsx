@@ -1,6 +1,5 @@
 import { Container, Main } from "./styles";
 import { Footer } from "@/components/Footer";
-// import { Header } from "@/components/Header";
 import Header from "../Header";
 import { ReactNode } from "react";
 

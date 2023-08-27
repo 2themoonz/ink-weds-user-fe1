@@ -1,11 +1,15 @@
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import universalCookie from "universal-cookie";
 
 // import config from "../../config";
 
 // content type
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+
+const cookies = new universalCookie();
+const AUTH_COOKIE_KEY = "next-template";
 
 // intercepting to capture errors
 axios.interceptors.response.use(
@@ -43,8 +47,6 @@ axios.interceptors.response.use(
   }
 );
 
-const AUTH_SESSION_KEY = "next-template";
-
 /**
  * Sets the default authorization
  * @param {*} token
@@ -56,7 +58,7 @@ const setAuthorization = (token: string | null) => {
 
 const getUserFromCookie = () => {
   if (typeof window !== "undefined") {
-    const user = sessionStorage.getItem(AUTH_SESSION_KEY);
+    const user = cookies.get(AUTH_COOKIE_KEY);
     return user ? (typeof user == "object" ? user : JSON.parse(user)) : null;
   }
 };
@@ -191,12 +193,12 @@ class APICore {
     }
   };
 
-  setLoggedInUser = (session: any) => {
-    if (session)
-      sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
-    else {
-      sessionStorage.removeItem(AUTH_SESSION_KEY);
+  setLoggedInUser = (cookie: any) => {
+    if (cookie) {
+      cookies.set(AUTH_COOKIE_KEY, cookie, { path: "/" });
+      return;
     }
+    cookies.remove(AUTH_COOKIE_KEY);
   };
   /**
    * Returns the logged in user
@@ -205,8 +207,8 @@ class APICore {
     return getUserFromCookie();
   };
 
-  setUserInSession = (modifiedUser: any) => {
-    let userInfo = sessionStorage.getItem(AUTH_SESSION_KEY);
+  setUserInCookie = (modifiedUser: any) => {
+    let userInfo = cookies.get(AUTH_COOKIE_KEY);
     if (userInfo) {
       const { token, user } = JSON.parse(userInfo);
       this.setLoggedInUser({ token, ...user, ...modifiedUser });
