@@ -19,10 +19,6 @@ module.exports = {
       },
       container: {
         center: true,
-        padding: {
-          DEFAULT: "20px",
-          phone: "10px",
-        },
       },
       fontFamily: {
         sans: ["DM Sans", "sans-serif"],
