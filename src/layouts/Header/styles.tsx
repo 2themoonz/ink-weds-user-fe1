@@ -6,14 +6,6 @@ export const Container = styled.div`
   border-bottom: 1px solid #e2e8f0;
 `;
 
-// screens: {
-//   tablet: "640px",
-//   laptop: "1024px",
-//   desktop: "1280px",
-//   "2xl": "1280px",
-// },
-// container should full screen
-// but wrapper should be 2xl or desktop size (1280px) due to the design
 export const Wrapper = styled.div`
   ${tw`container mx-auto px-4`}
   display: flex;
@@ -32,6 +24,7 @@ export const Logo = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  ${tw`cursor-pointer font-[32px] dark:text-white`}
 `;
 
 export const Right = styled.div`
